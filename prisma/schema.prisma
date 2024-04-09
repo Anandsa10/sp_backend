@@ -1,0 +1,63 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url = env("DATABASE_URL")
+  // url = "mongodb+srv://user:user@split.mkve7py.mongodb.net/split?retryWrites=true&w=majority"
+  // url      = "mongodb+srv://user:user@split.mkve7py.mongodb.net/?retryWrites=true&w=majority&appName=split"
+}
+
+model Group {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  usersIds String[] @db.ObjectId
+  users    User[]   @relation(fields: [usersIds], references: [id])
+  bills    Bill[]
+  
+}
+
+
+model User {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  userId   String   @unique
+  email    String
+  password String
+  groupIds String[] @db.ObjectId
+  groups   Group[]  @relation(fields: [groupIds], references: [id])
+  bills    Bill[]
+  owes     Owe[]
+
+}
+
+model Bill {
+  id         String @id @default(auto()) @map("_id") @db.ObjectId
+  title      String
+  amount     Float
+  groupId    String? @db.ObjectId
+  group      Group?  @relation(fields: [groupId], references: [id])
+  creditorId String @db.ObjectId
+  creditor   User   @relation(fields: [creditorId], references: [id])
+  owes       Owe[]
+}
+
+enum Status {
+  PENDING
+  PAID
+}
+
+model Owe {
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  amount    Float
+  billId    String @db.ObjectId
+  bill      Bill   @relation(fields: [billId], references: [id])
+  debtorId  String @db.ObjectId
+  debtor    User   @relation(fields: [debtorId], references: [id])
+  status    Status
+}
+
