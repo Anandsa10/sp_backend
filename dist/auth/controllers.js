@@ -63,7 +63,8 @@ function signInController(req, res, next) {
             return;
         }
         // Check the password
-        const passwordMatch = yield (0, bcrypt_1.compare)(password, user.password);
+        // const passwordMatch = yield (0, bcrypt_1.compare)(password, user.password);
+        const passwordMatch = yield (password, user.password);
         if (!passwordMatch) {
             next(new types_1.BadRequestError("Invalid username or password"));
             return;
