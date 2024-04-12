@@ -15,6 +15,9 @@ async function signUpController(
   const password: string = req.body.password;
   const email: string = req.body.email;
 
+  const hashedPassword: string = await hash(password, 3);
+  console.log(hashedPassword);
+
   // Check if the username is taken
   const existingUser = await db.user.findFirst({
     where: {
@@ -31,7 +34,8 @@ async function signUpController(
     data: {
       userId: userId,
       name: name,
-      password: await hash(password, 3),
+      password : hashedPassword,
+      // password: await hash(password, 3),
       email: email,
     },
   });
