@@ -26,6 +26,7 @@ function signUpController(req, res, next) {
         if (password.length < 8 || !/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+/.test(password)) {
             next(new types_1.BadRequestError("Password must be at least 8 characters long and contain at least one special character"));
             return;
+        }
         // Check if the username is taken
         const existingUser = yield db_1.db.user.findFirst({
             where: {
