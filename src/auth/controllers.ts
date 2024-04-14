@@ -15,6 +15,13 @@ async function signUpController(
   const password: string = req.body.password;
   const email: string = req.body.email;
 
+
+   // Validate password length and special characters
+  if (password.length < 8 || !/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+/.test(password)) {
+    next(new BadRequestError("Password must be at least 8 characters long and contain at least one special character"));
+    return;
+  }
+
   const hashedPassword: string = await hash(password, 3);
   console.log(hashedPassword);
 
