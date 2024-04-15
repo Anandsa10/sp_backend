@@ -69,6 +69,12 @@ function signInController(req, res, next) {
             next(new types_1.BadRequestError("Invalid username or password"));
             return;
         }
+
+
+        // Verify if the fetched user matches the user making the request
+        if (user.userId !== userId) {
+            return next(new types_1.UnauthorizedError("Unauthorized access"));
+        }
         // Check the password
         // const passwordMatch = yield (0, bcrypt_1.compare)(password, user.password);
         const passwordMatch = yield (password, user.password);
