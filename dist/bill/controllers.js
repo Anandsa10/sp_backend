@@ -122,6 +122,15 @@ function createBillController(req, res, next) {
                     },
                 } }),
         });
+
+        await db.anotherTable.create({
+            data: {
+                title: createdBill.title,
+                amount: createdBill.amount,
+                creditorId: createdBill.creditorId, // Assuming creditorId is the field in anotherTable to store creditor's ID
+                // Copy any other relevant fields
+            },
+        });
         res.status(200).json({
             message: "Bill created successfully",
         });
