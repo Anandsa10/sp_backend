@@ -123,7 +123,7 @@ function createBillController(req, res, next) {
                 } }),
         });
 
-        await db.anotherTable.create({
+        yield db.anotherTable.create({
             data: {
                 title: createdBill.title,
                 amount: createdBill.amount,
