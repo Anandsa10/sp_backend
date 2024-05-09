@@ -138,14 +138,14 @@ async function createBillController(
     },
   });
 
-   await db.anotherTable.create({
-    data: {
-      // Copy relevant fields from createdBill to AnotherTable
-      title: createdBill.title,
-      amount: createdBill.amount,
-      // Copy any other relevant fields
-    },
-  });
+  //  await db.anotherTable.create({
+  //   data: {
+  //     // Copy relevant fields from createdBill to AnotherTable
+  //     title: createdBill.title,
+  //     amount: createdBill.amount,
+  //     // Copy any other relevant fields
+  //   },
+  // });
 
   res.status(200).json({
     message: "Bill created successfully",
